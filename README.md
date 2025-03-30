@@ -1,6 +1,5 @@
 To run the application 
- bash
- '''
+ '''sh
   python trip_planner.py
 '''
 
