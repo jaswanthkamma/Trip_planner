@@ -11,7 +11,7 @@ import streamlit as st
 # Access the API keys
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 OPENTRIPMAP_API_KEY = st.secrets["OPENTRIPMAP_API_KEY"]
-CURRENCY_CONVERSION_RATE = float(st.secrets["CURRENCY_CONVERSION_RATE", 83])  # Default to 83 if missing
+CURRENCY_CONVERSION_RATE = float(st.secrets.get("CURRENCY_CONVERSION_RATE", 83))  # Default to 83 if missing
 
 
 
