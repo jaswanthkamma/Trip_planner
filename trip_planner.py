@@ -3,10 +3,10 @@ import requests
 import os
 from geopy.distance import geodesic
 import streamlit as st
-#from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 # Load .env file
-#load_dotenv()
+load_dotenv()
 
 # Access the API keys
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
