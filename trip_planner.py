@@ -113,13 +113,9 @@ Miscellaneous: INR {misc:.2f}
 
 Enjoy your trip!
 """
-# print(OPENAI_API_KEY)
-# print(OPENTRIPMAP_API_KEY)
 # Get user inputs
 
 st.title("AI-Generated Trip Planner")
-st.write(OPENAI_API_KEY)
-st.write(OPENTRIPMAP_API_KEY)
 start_city = st.text_input("Enter your starting city:")
 destination = st.text_input("Enter your destination city:")
 budget = st.number_input("Enter your total budget (in INR):", min_value=1000.0, step=500.0)
