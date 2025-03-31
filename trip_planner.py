@@ -110,5 +110,6 @@ days = st.number_input("How many days will you stay (including travel)?", min_va
 transport = st.selectbox("How will you travel?", ["flight", "train", "car"])
 
 if st.button("Generate Trip Plan"):
+    st.write("destination:",destination,"days:",days)
     trip_plan = generate_trip_plan(start_city, destination, budget, days, transport)
     st.write(trip_plan)
