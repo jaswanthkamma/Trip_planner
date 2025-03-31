@@ -1,0 +1,32 @@
+name: Deploy Streamlit App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Create .env File
+        run: |
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+          echo "OPENTRIPMAP_API_KEY=${{ secrets.OPENTRIPMAP_API_KEY }}" >> .env
+          echo "CURRENCY_CONVERSION_RATE=${{ secrets.CURRENCY_CONVERSION_RATE }}" >> .env
+
+      - name: Run Streamlit App
+        run: streamlit run app.py
