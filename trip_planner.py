@@ -3,12 +3,8 @@ import requests
 import os
 from geopy.distance import geodesic
 import streamlit as st
-#from dotenv import load_dotenv
 
-# Load environment variables from the .env file
-#load_dotenv()
-
-# Set up your API keys from environment variables
+# Set up your API keys from environment variables (make sure to set these in Streamlit secrets or in a .env file)
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 OPENTRIPMAP_API_KEY = os.getenv("OPENTRIPMAP_API_KEY")
 CURRENCY_CONVERSION_RATE = float(os.getenv("CURRENCY_CONVERSION_RATE", 83))  # Default to 83 if not found
@@ -16,11 +12,19 @@ openai.api_key = OPENAI_API_KEY
 
 # Function to get latitude and longitude of a city
 def get_city_coordinates(city):
+    city = city.strip()  # Remove any leading/trailing spaces
     url = f"https://api.opentripmap.com/0.1/en/places/geoname?name={city}&apikey={OPENTRIPMAP_API_KEY}"
-    response = requests.get(url).json()
-    if "lat" in response and "lon" in response:
-        return response["lat"], response["lon"]
-    return None, None
+    try:
+        response = requests.get(url).json()
+        # Print the entire response to debug
+        print(response)
+        if "lat" in response and "lon" in response:
+            return response["lat"], response["lon"]
+        else:
+            return None, None
+    except Exception as e:
+        print(f"Error occurred while fetching coordinates for {city}: {e}")
+        return None, None
 
 # Function to fetch tourist attractions
 def get_tourist_attractions(city):
@@ -29,15 +33,17 @@ def get_tourist_attractions(city):
         return []
 
     places_url = f"https://api.opentripmap.com/0.1/en/places/radius?radius=5000&lon={lon}&lat={lat}&apikey={OPENTRIPMAP_API_KEY}"
-    places_response = requests.get(places_url).json()
-
-    places = []
-    for place in places_response.get("features", [])[:20]:  # Limit to 20 places
-        name = place["properties"].get("name", "Unknown Place")
-        if name:
-            places.append(name)
-
-    return places
+    try:
+        places_response = requests.get(places_url).json()
+        places = []
+        for place in places_response.get("features", [])[:20]:  # Limit to 20 places
+            name = place["properties"].get("name", "Unknown Place")
+            if name:
+                places.append(name)
+        return places
+    except Exception as e:
+        print(f"Error occurred while fetching attractions for {city}: {e}")
+        return []
 
 # Function to estimate travel time based on mode of transport
 def estimate_travel_time(distance, mode):
@@ -111,7 +117,6 @@ Miscellaneous: INR {misc:.2f}
 Enjoy your trip!
 """
 
-
 # Streamlit App Interface
 st.title("AI-Generated Trip Planner")
 
@@ -126,14 +131,3 @@ transport = st.selectbox("How will you travel?", ["flight", "train", "car"])
 if st.button("Generate Trip Plan"):
     trip_plan = generate_trip_plan(start_city, destination, budget, days, transport)
     st.write(trip_plan)
-
-# # Get user inputs
-# start_city = input("Enter your starting city: ")
-# destination = input("Enter your destination city: ")
-# budget = float(input("Enter your total budget (in INR): "))
-# days = int(input("How many days will you stay (including travel)? "))
-# transport = input("How will you travel? (flight, train, car) ").lower()
-
-# # Generate and display trip plan
-# trip_plan = generate_trip_plan(start_city, destination, budget, days, transport)
-# print(trip_plan)
