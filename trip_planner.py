@@ -2,6 +2,7 @@ import openai
 import requests
 import os
 from geopy.distance import geodesic
+import streamlit as st
 #from dotenv import load_dotenv
 
 # Load environment variables from the .env file
