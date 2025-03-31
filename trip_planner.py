@@ -2,10 +2,10 @@ import openai
 import requests
 import os
 from geopy.distance import geodesic
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
 # Load environment variables from the .env file
-load_dotenv()
+#load_dotenv()
 
 # Set up your API keys from environment variables
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
