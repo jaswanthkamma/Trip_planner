@@ -110,13 +110,29 @@ Miscellaneous: INR {misc:.2f}
 Enjoy your trip!
 """
 
-# Get user inputs
-start_city = input("Enter your starting city: ")
-destination = input("Enter your destination city: ")
-budget = float(input("Enter your total budget (in INR): "))
-days = int(input("How many days will you stay (including travel)? "))
-transport = input("How will you travel? (flight, train, car) ").lower()
 
-# Generate and display trip plan
-trip_plan = generate_trip_plan(start_city, destination, budget, days, transport)
-print(trip_plan)
+# Streamlit App Interface
+st.title("AI-Generated Trip Planner")
+
+# Get user inputs from Streamlit form elements
+start_city = st.text_input("Enter your starting city:")
+destination = st.text_input("Enter your destination city:")
+budget = st.number_input("Enter your total budget (in INR):", min_value=1.0)
+days = st.number_input("How many days will you stay (including travel)?", min_value=1)
+transport = st.selectbox("How will you travel?", ["flight", "train", "car"])
+
+# Generate and display trip plan when the button is clicked
+if st.button("Generate Trip Plan"):
+    trip_plan = generate_trip_plan(start_city, destination, budget, days, transport)
+    st.write(trip_plan)
+
+# # Get user inputs
+# start_city = input("Enter your starting city: ")
+# destination = input("Enter your destination city: ")
+# budget = float(input("Enter your total budget (in INR): "))
+# days = int(input("How many days will you stay (including travel)? "))
+# transport = input("How will you travel? (flight, train, car) ").lower()
+
+# # Generate and display trip plan
+# trip_plan = generate_trip_plan(start_city, destination, budget, days, transport)
+# print(trip_plan)
