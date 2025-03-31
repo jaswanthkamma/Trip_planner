@@ -3,15 +3,15 @@ import requests
 import os
 from geopy.distance import geodesic
 import streamlit as st
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 
 # Load .env file
-load_dotenv()
+#load_dotenv()
 
 # Access the API keys
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-OPENTRIPMAP_API_KEY = os.getenv("OPENTRIPMAP_API_KEY")
-CURRENCY_CONVERSION_RATE = float(os.getenv("CURRENCY_CONVERSION_RATE", 83))  # Default to 83 if missing
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+OPENTRIPMAP_API_KEY = st.secrets["OPENTRIPMAP_API_KEY"]
+CURRENCY_CONVERSION_RATE = float(st.secrets["CURRENCY_CONVERSION_RATE", 83])  # Default to 83 if missing
 
 
 
